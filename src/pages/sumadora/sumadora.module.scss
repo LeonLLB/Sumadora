@@ -1,5 +1,19 @@
+$min_screen: 0px;
+$sm_screen: 640px;
+$md_screen: 768px ;
+$lg_screen: 1024px;
+$xl_screen: 1280px ;
+
 .sumadoraContainer{
     display: grid;
     grid-template-rows: minmax(0,1fr) 4rem minmax(0,1fr);
-    height: 92.5vh;
+    @media (min-width: $min_screen) {
+        height: 85vh;
+    }
+    @media (min-width: $sm_screen) {
+        height: 92.5vh;
+    }
+    @media (min-width: $md_screen) {
+        height: 92.5vh;        
+    }
 }
