@@ -1,0 +1,7 @@
+.container{
+    display: grid;
+    gap: 1.375rem;
+    width: 100%;
+    grid-template-columns: repeat(6,minmax(0,1fr));
+    grid-template-rows: repeat(3,minmax(0,1fr)) 4rem;    
+}
