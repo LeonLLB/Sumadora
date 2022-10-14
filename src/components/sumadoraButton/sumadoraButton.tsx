@@ -10,7 +10,8 @@ interface SumadoraButtonProps{
     gridColSpan?: number
 }
 
-const SumadoraButton = ({keyBtn,isFuncKey = false,onClick,gridColSpan = 1}:SumadoraButtonProps) => {
+const SumadoraButton = ({keyBtn,isFuncKey = false,onClick,gridColSpan = 1}:SumadoraButtonProps) => {  
+
   return (
     <div className={`${styles.btn} ${isFuncKey ? styles.func : ''}`} style={{gridColumn: `span ${gridColSpan} / span ${gridColSpan}`}} onClick={()=>onClick(keyBtn)}>
         <span>
