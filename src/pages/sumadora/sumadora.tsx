@@ -8,7 +8,7 @@ import SumadoraList from '../../components/sumadoraList/sumadoraList'
 
 const SumadoraPage = () => {
   const [inputFocusedStatus,setInputFocusedStatus] = useState(false)
-  const [valueList,SetValueList] = useState<Value[]>([])
+  const [valueList,SetValueList] = useState<Value[]>(JSON.parse(localStorage.getItem('list-backup')!) || [])
   let defString: string = ''
   const [input,setInput] = useState('')
 
@@ -45,21 +45,31 @@ const SumadoraPage = () => {
   }
 
   const dispatchValue = (type:string) => {
-    if(defString === '' && input==='') return
-    defString=''
-    setInput('')
+    let newValueList = type === 'Enter' ? [...valueList as any,_calcNewValue('+')] : [...valueList as any,_calcNewValue(type as any)]
     switch (type) {
       case 'Enter':
-      case '+':
-        SetValueList([...valueList as any,_calcNewValue('+')])     
+      case '+':        
+        if(defString === '' && input==='') return
+        defString=''
+        setInput('')
+        localStorage.setItem('list-backup',JSON.stringify(newValueList))
+        SetValueList(newValueList)     
         break;
       case '-':
       case '*':
       case '/':
-        SetValueList([...valueList as any,_calcNewValue(type)])     
+        if(defString === '' && input==='') return
+        defString=''
+        setInput('')
+        localStorage.setItem('list-backup',JSON.stringify(newValueList))
+        SetValueList(newValueList)     
         break;
       case 'CE/C':
+        defString=''
+        setInput('')
+        localStorage.removeItem('list-backup')
         SetValueList([])
+        break
     }
   }
 
