@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext } from "react"
 import { InputStatusContext } from "../../context/inputStatus"
-
+import styles from './sumadoraInput.module.scss'
 
 const SumadoraInput = ({value,onChange}:{value:string,onChange:(e:ChangeEvent)=>void}) => {
 
@@ -16,7 +16,7 @@ const SumadoraInput = ({value,onChange}:{value:string,onChange:(e:ChangeEvent)=>
 
   return (
     <div>
-        <input onFocus={onFocus} onBlur={onBlur} value={value} type="text" name="formName" onChange={onChange}/>
+        <input className={styles.input} onFocus={onFocus} onBlur={onBlur} value={value} type="text" name="formName" onChange={onChange}/>
     </div>
   )
 }
