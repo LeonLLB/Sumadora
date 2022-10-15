@@ -9,7 +9,7 @@ interface buttonsArrObjectsProps {
 	isFunc?: boolean
 }
 
-const SumadoraButtonsLayout = ({onChangeOrInputDetected}:{onChangeOrInputDetected:(input:string)=>void}) => {
+const SumadoraButtonsLayout = ({onChangeOrInputDetected}:{onChangeOrInputDetected:(input:string,fromVirtualKeyboard?:boolean)=>void}) => {
 
 	const buttonsArr: buttonsArrObjectsProps[] = [
 		{ key: 7 }, { key: 8 }, { key: 9 }, { key: '+', colSpan: 3 },
@@ -20,7 +20,7 @@ const SumadoraButtonsLayout = ({onChangeOrInputDetected}:{onChangeOrInputDetecte
 	]
 
 	const {inputFocusedStatus} = useContext(InputStatusContext)
-	const defFunc = (key: string | number) => onChangeOrInputDetected( typeof(key) === 'number' ? key.toString() : key)
+	const defFunc = (key: string | number) => onChangeOrInputDetected(`${key}`,true)
 	
 	const keyboardListener = (e: KeyboardEvent) => {
 		const validKeys = [
