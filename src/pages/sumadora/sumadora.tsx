@@ -56,11 +56,13 @@ const SumadoraPage = () => {
       case '/':
         SetValueList([...valueList as any,_calcNewValue(type)])     
         break;
+      case 'CE/C':
+        SetValueList([])
     }
   }
 
   const onInput = (change: string,fromVirtualKeyboard = false) => {
-    const eventKeys = ['Enter','+','-','*','/']
+    const eventKeys = ['Enter','+','-','*','/','CE/C']
     
     if(eventKeys.includes(change)){
       dispatchValue(change)
