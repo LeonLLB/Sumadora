@@ -4,6 +4,7 @@ import SumadoraButtonsLayout from '../../components/sumadoraButtonsLayout/sumado
 import SumadoraInput from '../../components/sumadoraInput/sumadoraInput'
 import styles from './sumadora.module.scss'
 import { Value, ValueListContext } from '../../context/valueList'
+import SumadoraList from '../../components/sumadoraList/sumadoraList'
 
 const SumadoraPage = () => {
   const [inputFocusedStatus,setInputFocusedStatus] = useState(false)
@@ -11,7 +12,7 @@ const SumadoraPage = () => {
   let defString: string = ''
   const [input,setInput] = useState('')
 
-  const _calcNewValue = (operation: '+' | '-' | '*' | '/') => {
+  const _calcNewValue = (operation: '+' | '-' | '*' | '/') => {    
     const newValueToOperate = parseFloat(input.replace(',','.'))
     const newValue: Value = {
       operation,
@@ -44,6 +45,7 @@ const SumadoraPage = () => {
   }
 
   const dispatchValue = (type:string) => {
+    if(defString === '' && input==='') return
     defString=''
     setInput('')
     switch (type) {
@@ -90,14 +92,18 @@ const SumadoraPage = () => {
     setInput(defString)
   }
 
-  const _filterStringByFloatingPoint = (string:string,floatingChar: string) =>
-    string.split('').filter((char:string)=>char===floatingChar)
+  const _getCharsInString = (string:string,floatingChar: string) =>
+    string.split('').filter((char:string)=>char===floatingChar).length
 
   const changeInput = (value:string) => {
     defString = value
     if(
-      _filterStringByFloatingPoint(value,',').length>=1 && (input.includes(',') || input.includes('.')) || 
-      _filterStringByFloatingPoint(value,'.').length>=1 && (input.includes(',') || input.includes('.')) 
+      input.includes(',') && value.includes('.') ||
+      input.includes('.') && value.includes(',')
+    ) return;
+    if(
+      _getCharsInString(value,',') >=2 && (input.includes(',') || input.includes('.')) || 
+      _getCharsInString(value,'.') >=2 && (input.includes(',') || input.includes('.')) 
     ){
       return
     }
@@ -109,7 +115,7 @@ const SumadoraPage = () => {
     <ValueListContext.Provider value={{valueList,SetValueList}}>
       <InputStatusContext.Provider value={{inputFocusedStatus,setInputFocusedStatus}}>
         <div className={styles.sumadoraContainer}>
-            <div>123</div>
+            <SumadoraList/>
             <SumadoraInput dispatch={dispatchValue} value={input} onChange={changeInput}/>
             <SumadoraButtonsLayout onChangeOrInputDetected={onInput}/>
         </div>    
