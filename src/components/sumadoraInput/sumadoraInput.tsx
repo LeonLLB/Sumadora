@@ -2,7 +2,7 @@ import { ChangeEvent, useContext } from "react"
 import { InputStatusContext } from "../../context/inputStatus"
 import styles from './sumadoraInput.module.scss'
 
-const SumadoraInput = ({value,onChange}:{value:string,onChange:(e:ChangeEvent)=>void}) => {
+const SumadoraInput = ({value,onChange,dispatch}:{value:string,onChange:(value:string)=>void,dispatch:(type:string)=>void}) => {
 
     const {setInputFocusedStatus} = useContext(InputStatusContext)
 
@@ -12,11 +12,27 @@ const SumadoraInput = ({value,onChange}:{value:string,onChange:(e:ChangeEvent)=>
 
     const onBlur = () => {
         setInputFocusedStatus(false)
+    }    
+
+    const dispatchUp = (dispatchType:string) => {
+      const eventKeys = ['Enter','+','-','*','/']
+      if(eventKeys.includes(dispatchType)){
+        dispatch(dispatchType)
+      }
     }
 
   return (
     <div>
-        <input className={styles.input} onFocus={onFocus} onBlur={onBlur} value={value} type="text" name="formName" onChange={onChange}/>
+        <input
+          onKeyUp={({key})=>dispatchUp(key)}
+          className={styles.input}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          value={value}
+          type="text"
+          name="input"
+          onChange={(e)=>onChange(e.target.value)}
+          />
     </div>
   )
 }
