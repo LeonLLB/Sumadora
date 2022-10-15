@@ -70,11 +70,16 @@ const SumadoraPage = () => {
         localStorage.removeItem('list-backup')
         SetValueList([])
         break
+      default:
+        console.log('UNIMPLEMENTED: ',type)
+        break;  
+      ;
+
     }
   }
 
   const onInput = (change: string,fromVirtualKeyboard = false) => {
-    const eventKeys = ['Enter','+','-','*','/','CE/C']
+    const eventKeys = ['Enter','+','-','*','/','CE/C','CSV','Config']
     
     if(eventKeys.includes(change)){
       dispatchValue(change)
