@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { InputStatusContext } from '../../context/inputStatus'
 import SumadoraButton from '../sumadoraButton/sumadoraButton'
 import styles from './sumadoraButtonsLayout.module.scss'
 
@@ -8,7 +9,7 @@ interface buttonsArrObjectsProps {
 	isFunc?: boolean
 }
 
-const SumadoraButtonsLayout = () => {
+const SumadoraButtonsLayout = ({onChangeOrInputDetected}:{onChangeOrInputDetected:(input:string)=>void}) => {
 
 	const buttonsArr: buttonsArrObjectsProps[] = [
 		{ key: 7 }, { key: 8 }, { key: 9 }, { key: '+', colSpan: 3 },
@@ -18,8 +19,9 @@ const SumadoraButtonsLayout = () => {
 		{ key: 'CE/C', colSpan: 2, isFunc: true }, { key: 'CSV', colSpan: 2, isFunc: true }, { key: 'Config', colSpan: 2, isFunc: true },
 	]
 
-	const defFunc = (key: string | number) => console.log(key)
-
+	const {inputFocusedStatus} = useContext(InputStatusContext)
+	const defFunc = (key: string | number) => onChangeOrInputDetected( typeof(key) === 'number' ? key.toString() : key)
+	
 	const keyboardListener = (e: KeyboardEvent) => {
 		const validKeys = [
 			'7','8','9','+',
@@ -28,18 +30,19 @@ const SumadoraButtonsLayout = () => {
 			'0',',','.','/',
 			'Enter',' '
 		]
-		if(validKeys.includes(e.key)){
-			console.log(e.key)
+		if(validKeys.includes(e.key) && !inputFocusedStatus){
+			onChangeOrInputDetected(e.key)
 		}
 	}
 
 	useEffect(() => {
-		window.addEventListener('keyup', keyboardListener)
-
-		return () => {
-			window.removeEventListener('keyup', keyboardListener)
-		}
-	}, [])
+	  window.addEventListener('keyup',keyboardListener)
+	
+	  return () => {
+		window.removeEventListener('keyup',keyboardListener)
+	  }
+	}, [inputFocusedStatus])
+	
 
 	return (
 		<div className={styles.container}>
