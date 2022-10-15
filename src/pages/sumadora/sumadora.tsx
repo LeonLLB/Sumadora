@@ -15,7 +15,7 @@ const SumadoraPage = () => {
   }
 
   const changeInput = (e:ChangeEvent) => {
-    setInput(defString)
+    setInput((e.target as any).value)
   }
 
   return (
