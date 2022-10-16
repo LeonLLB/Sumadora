@@ -13,6 +13,7 @@ export default defineConfig({
       //   type: 'module',
       //   navigateFallback: 'index.html',
       // },
+      mode:'production',
       base: '/',
       srcDir:'src',
       filename:'serviceWorker.ts',
