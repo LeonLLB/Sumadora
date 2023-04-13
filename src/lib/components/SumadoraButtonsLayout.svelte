@@ -16,7 +16,7 @@
 		{ key: 4 }, { key: 5 }, { key: 6 }, { key: '-', colSpan: 3 },
 		{ key: 1 }, { key: 2 }, { key: 3 }, { key: '*', colSpan: 3 },
 		{ key: 0 }, { key: '00' }, { key: ',' }, { key: '/', colSpan: 3 },
-		{ key: 'CE/C', colSpan: 2, isFunc: true }, { key: 'CSV', colSpan: 2, isFunc: true }, { key: 'Config', colSpan: 2, isFunc: true },
+		{ key: 'CE/C', colSpan: 3, isFunc: true }, { key: 'Config', colSpan: 3, isFunc: true },
 	]
 
 	const defFunc = (key: string | number) => onChangeOrInputDetected(`${key}`)

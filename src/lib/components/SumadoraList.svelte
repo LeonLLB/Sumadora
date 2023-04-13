@@ -1,25 +1,32 @@
 <script lang="ts">
     import { valueList } from "../context/valueList";
-    console.log($valueList)
+    import {config} from '../context/config'
+    
 </script>
 <div class="listContainer">
     <div class="list">
         <table>
             <tbody>
-                {#each $valueList as value}
+                {#each $valueList as value, i}
                     <tr>
-                        <td class={value.operation + ' ' + "value"}> <span>{value.newValueToOperate}</span> </td>
+                        <td rowSpan={i === 0 ? 2 : 1} class={value.operation + ' ' + "value"}> <span>{value.newValueToOperate}</span> </td>
                         <td class="operation" rowSpan={2}> <span class={value.operation}>{value.operation}</span> </td>
                     </tr>
+                    
                     <tr>
-                        <td class="result"> <span>{value.finalResult}</span> </td>
+                        <td class="result">
+                            {#if i !== 0}
+                                <span>R: {value.finalResult}</span>
+                            {/if}
+                        </td>
                     </tr>
+                    <!-- <hr> -->
                 {/each}
             </tbody>
         </table>
     </div>
     <div class="resultList">
-        {$valueList[$valueList.length-1] ? $valueList[$valueList.length-1].finalResult : 0.0 }
+        {$valueList[$valueList.length-1] ? $valueList[$valueList.length-1].finalResult.toFixed($config.decimal) : 0.0 }
     </div>
 </div>
 
@@ -98,6 +105,11 @@
             justify-content: start;
         }
 
+        & .result {
+            margin-bottom: .5rem;
+        }
+        
+        
 
     }
 </style>

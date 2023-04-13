@@ -1,12 +1,12 @@
 <script lang="ts">
+    import {navigate} from 'svelte-navigator'
     import SumadoraList from "../components/SumadoraList.svelte";
     import SumadoraInput from "../components/SumadoraInput.svelte";
+    import SumadoraButtonsLayout from "../components/SumadoraButtonsLayout.svelte";
     import type { Value } from "../context/valueList";
     import { input } from "../context/value";
     import {valueList} from '../context/valueList'
-    import SumadoraButtonsLayout from "../components/SumadoraButtonsLayout.svelte";
 
-    // const [inputFocusedStatus,setInputFocusedStatus] = useState(false)
     (()=>{
         const dataToPreload = JSON.parse(localStorage.getItem('list-backup'))
         if(!dataToPreload){valueList.set([]);return}
@@ -78,21 +78,24 @@
     valueList.set([])
   }
 
+  const configDispatch = ()=>{
+    navigate('/config')
+  }
+
   const dispatchValue = (type:string) => {
     let newValueList = type === 'Enter' ? [...$valueList as any,_calcNewValue('+')] : [...$valueList as any,_calcNewValue(type as any)]
     switch (type) {
       case 'Enter':
       case '+':        
-        addOrEnterDispatch(newValueList)
-        break;
+        return addOrEnterDispatch(newValueList)
       case '-':
       case '*':
       case '/':
-        otherOperationDispatch(newValueList) 
-        break;
+        return otherOperationDispatch(newValueList) 
       case 'CE/C':
-        clearDispatch()
-        break
+        return clearDispatch()
+      case 'Config':
+        return configDispatch();
       default:
         console.log('UNIMPLEMENTED: ',type)
         break;  
@@ -111,18 +114,7 @@
       input.update(inpt => inpt + change)      
   }
 
-//   const onInputFromPhysicalKeyBoard = (change:string)=>{
-//     if(
-//       change === ',' && (defString.includes(',') || defString.includes('.')) || 
-//       change === '.' && (defString.includes(',') || defString.includes('.')) 
-//     ){
-//       return
-//     }
-//     defString = defString + change 
-//     setInput(defString)
-//   }
-
-  const onInput = (change: string/* ,fromVirtualKeyboard = false */) => {
+  const onInput = (change: string) => {
     const eventKeys = ['Enter','+','-','*','/','CE/C','CSV','Config']
     
     if(eventKeys.includes(change)){
@@ -131,9 +123,6 @@
     }
 
     onInputFromVirtualKeyboard(change)
-    // if(fromVirtualKeyboard){
-    // }
-    // onInputFromPhysicalKeyBoard(change)
   }  
 </script>
 

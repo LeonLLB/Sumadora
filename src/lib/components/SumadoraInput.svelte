@@ -48,6 +48,7 @@
         value={$input}
         on:change={onChange}
         type="text"
+        disabled
         name="input"
       />
 </div>
